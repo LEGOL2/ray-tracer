@@ -3,3 +3,4 @@ sources += files(
 )
 
 subdir('image')
+subdir('math')
