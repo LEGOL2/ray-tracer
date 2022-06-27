@@ -2,6 +2,13 @@
 
 This is my effort to create a CPU based ray tracer, based on [book series](https://raytracing.github.io) by Peter Shirley.
 
+## Build
+Requires [Meson](https://mesonbuild.com/) build system and [ninja](https://ninja-build.org/)
+
+```
+meson build
+ninja -C build
+```
 
 ## License
 This repository is licensed under MIT. Please refer to [LICENSE.md](LICENSE.md)
