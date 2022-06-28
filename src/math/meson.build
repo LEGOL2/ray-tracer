@@ -1,3 +1,4 @@
 sources += files(
-    'vec.hpp'
+    'vec3.hpp',
+    'vec3.cpp'
 )
