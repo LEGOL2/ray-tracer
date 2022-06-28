@@ -46,11 +46,7 @@ vec3 cross(const vec3& lhs, const vec3& rhs);
 
 vec3 unit_vector(vec3 v);
 
-class point3 : public vec3 {
- public:
-  point3() : vec3() {}
-  point3(double e0, double e1, double e2) : vec3(e0, e1, e2) {}
-};
+using point3 = vec3;
 
 class color : public vec3 {
  public:
