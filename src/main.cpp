@@ -67,14 +67,14 @@ color ray_color(const ray& r) {
 
 double hit_sphere(const point3& center, double radius, const ray& r) {
   vec3 oc = r.origin() - center;
-  auto a = dot(r.direction(), r.direction());
-  auto b = 2.0 * dot(r.direction(), oc);
-  auto c = dot(oc, oc) - radius * radius;
-  auto delta = b * b - 4 * a * c;
+  auto a = r.direction().length_squared();
+  auto half_b = dot(oc, r.direction());
+  auto c = oc.length_squared() - radius * radius;
+  auto delta = half_b * half_b - a * c;
 
   if (delta < 0) {
     return -1.0f;
   } else {
-    return (-b - sqrt(delta)) / (2.0 * a);
+    return (-half_b - sqrt(delta)) / a;
   }
 }
