@@ -12,6 +12,13 @@ class vec3 {
   double y() const;
   double z() const;
 
+  uint8_t r() const;
+  void r(double t);
+  uint8_t g() const;
+  void g(double t);
+  uint8_t b() const;
+  void b(double t);
+
   vec3 operator-() const;
   double operator[](int i) const;
   double& operator[](int i);
@@ -47,16 +54,4 @@ vec3 cross(const vec3& lhs, const vec3& rhs);
 vec3 unit_vector(vec3 v);
 
 using point3 = vec3;
-
-class color : public vec3 {
- public:
-  color() : vec3() {}
-  color(double e0, double e1, double e2) : vec3(e0, e1, e2) {}
-
-  uint8_t r() const;
-  void r(double t);
-  uint8_t g() const;
-  void g(double t);
-  uint8_t b() const;
-  void b(double t);
-};
+using color = vec3;

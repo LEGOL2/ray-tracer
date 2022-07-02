@@ -4,6 +4,13 @@ double vec3::x() const { return e[0]; }
 double vec3::y() const { return e[1]; }
 double vec3::z() const { return e[2]; }
 
+uint8_t vec3::r() const { return static_cast<uint8_t>(255.999 * e[0]); }
+void vec3::r(double t) { e[0] = t; }
+uint8_t vec3::g() const { return static_cast<uint8_t>(255.999 * e[1]); }
+void vec3::g(double t) { e[1] = t; }
+uint8_t vec3::b() const { return static_cast<uint8_t>(255.999 * e[2]); }
+void vec3::b(double t) { e[2] = t; }
+
 vec3 vec3::operator-() const { return vec3(-e[0], -e[1], -e[2]); }
 
 double vec3::operator[](int i) const { return e[i]; }
@@ -56,10 +63,3 @@ vec3 cross(const vec3& lhs, const vec3& rhs) {
 }
 
 vec3 unit_vector(vec3 v) { return v / v.length(); }
-
-uint8_t color::r() const { return static_cast<uint8_t>(255.999 * e[0]); }
-void color::r(double t) { e[0] = t; }
-uint8_t color::g() const { return static_cast<uint8_t>(255.999 * e[1]); }
-void color::g(double t) { e[1] = t; }
-uint8_t color::b() const { return static_cast<uint8_t>(255.999 * e[2]); }
-void color::b(double t) { e[2] = t; }
