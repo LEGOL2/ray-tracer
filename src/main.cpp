@@ -3,9 +3,11 @@
 #include <iostream>
 #include <vector>
 
+#include "src/camera.hpp"
 #include "src/hittable_list.hpp"
 #include "src/image/image.hpp"
-#include "src/math/constants.h"
+#include "src/math/constants.hpp"
+#include "src/math/random.hpp"
 #include "src/math/ray.hpp"
 #include "src/math/sphere.hpp"
 #include "src/math/vec3.hpp"
@@ -18,6 +20,7 @@ int main() {
   constexpr double ASPECT_RATIO = 16.0 / 9.0;
   constexpr uint32_t WIDTH = 800;
   constexpr uint32_t HEIGHT = WIDTH / ASPECT_RATIO;
+  constexpr uint32_t samples_per_pixel = 100;
 
   // World
   hittable_list world;
@@ -25,14 +28,7 @@ int main() {
   world.add(std::make_shared<sphere>(point3(0, -100.5, -1.0), 100));
 
   // Camera
-  auto viewport_height = 2.0;
-  auto viewport_width = ASPECT_RATIO * viewport_height;
-  auto focal_length = 1.0;
-
-  auto origin = point3(0, 0, 0);
-  auto horizontal = vec3(viewport_width, 0, 0);
-  auto vertical = vec3(0, viewport_height, 0);
-  auto upper_left_corner = origin - horizontal / 2 + vertical / 2 - vec3(0, 0, focal_length);
+  camera camera;
 
   // Render
   auto start_time = std::chrono::high_resolution_clock::now();
@@ -40,12 +36,14 @@ int main() {
   for (uint32_t j = 0; j < HEIGHT; j++) {
     for (uint32_t i = 0; i < WIDTH; i++) {
       auto idx = j * WIDTH + i;
-      auto u = static_cast<double>(i) / (WIDTH - 1);
-      auto v = static_cast<double>(j) / (HEIGHT - 1);
+      color pixel_color(0, 0, 0);
 
-      vec3 direction = upper_left_corner + u * horizontal - v * vertical - origin;
-      ray r(origin, direction);
-      color pixel_color = ray_color(r, world);
+      for (uint32_t s = 0; s < samples_per_pixel; s++) {
+        auto u = static_cast<double>(i + random_double()) / (WIDTH - 1);
+        auto v = static_cast<double>(j + random_double()) / (HEIGHT - 1);
+        ray r(camera.get_ray(u, v));
+        pixel_color += ray_color(r, world);
+      }
 
       auto& c = colors[idx];
       c.r(pixel_color.x());
@@ -58,7 +56,7 @@ int main() {
             << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count()
             << "ms" << std::endl;
 
-  write_image("image.png", WIDTH, HEIGHT, colors);
+  write_image("image.png", WIDTH, HEIGHT, colors, samples_per_pixel);
 }
 
 color ray_color(const ray& r, const hittable& world) {

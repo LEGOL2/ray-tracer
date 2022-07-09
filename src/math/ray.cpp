@@ -1,4 +1,5 @@
 #include "src/math/ray.hpp"
+
 point3 ray::origin() const { return orig; }
 vec3 ray::direction() const { return dir; }
 

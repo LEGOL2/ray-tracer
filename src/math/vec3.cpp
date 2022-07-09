@@ -1,14 +1,18 @@
 #include "src/math/vec3.hpp"
 
+#include "src/math/utils.hpp"
+
 double vec3::x() const { return e[0]; }
 double vec3::y() const { return e[1]; }
 double vec3::z() const { return e[2]; }
 
-uint8_t vec3::r() const { return static_cast<uint8_t>(255.999 * e[0]); }
+uint8_t vec3::r() const { return static_cast<uint8_t>(256 * clamp(e[0], 0.0, 0.999)); }
 void vec3::r(double t) { e[0] = t; }
-uint8_t vec3::g() const { return static_cast<uint8_t>(255.999 * e[1]); }
+
+uint8_t vec3::g() const { return static_cast<uint8_t>(256 * clamp(e[1], 0.0, 0.999)); }
 void vec3::g(double t) { e[1] = t; }
-uint8_t vec3::b() const { return static_cast<uint8_t>(255.999 * e[2]); }
+
+uint8_t vec3::b() const { return static_cast<uint8_t>(255 * clamp(e[2], 0.0, 0.999)); }
 void vec3::b(double t) { e[2] = t; }
 
 vec3 vec3::operator-() const { return vec3(-e[0], -e[1], -e[2]); }
