@@ -41,29 +41,20 @@ vec3& vec3::operator/=(const double t) { return *this *= 1 / t; }
 double vec3::length_squared() const { return e[0] * e[0] + e[1] * e[1] + e[2] * e[2]; }
 double vec3::length() const { return std::sqrt(length_squared()); }
 
-vec3 operator+(vec3 lhs, const vec3& rhs) {
-  return vec3(lhs[0] + rhs[0], lhs[1] + rhs[1], lhs[2] + rhs[2]);
-}
+vec3 operator+(vec3 lhs, const vec3& rhs) { return vec3(lhs[0] + rhs[0], lhs[1] + rhs[1], lhs[2] + rhs[2]); }
 
-vec3 operator-(vec3 lhs, const vec3& rhs) {
-  return vec3(lhs[0] - rhs[0], lhs[1] - rhs[1], lhs[2] - rhs[2]);
-}
+vec3 operator-(vec3 lhs, const vec3& rhs) { return vec3(lhs[0] - rhs[0], lhs[1] - rhs[1], lhs[2] - rhs[2]); }
 
-vec3 operator*(vec3 lhs, const vec3& rhs) {
-  return vec3(lhs[0] * rhs[0], lhs[1] * rhs[1], lhs[2] * rhs[2]);
-}
+vec3 operator*(vec3 lhs, const vec3& rhs) { return vec3(lhs[0] * rhs[0], lhs[1] * rhs[1], lhs[2] * rhs[2]); }
 vec3 operator*(const double t, const vec3& v) { return vec3(t * v[0], t * v[1], t * v[2]); }
 vec3 operator*(const vec3& v, const double t) { return t * v; }
 
 vec3 operator/(vec3 v, double t) { return (1 / t) * v; }
 
-double dot(const vec3& lhs, const vec3& rhs) {
-  return lhs[0] * rhs[0] + lhs[1] * rhs[1] + lhs[2] * rhs[2];
-}
+double dot(const vec3& lhs, const vec3& rhs) { return lhs[0] * rhs[0] + lhs[1] * rhs[1] + lhs[2] * rhs[2]; }
 
 vec3 cross(const vec3& lhs, const vec3& rhs) {
-  return vec3(lhs[1] * rhs[2] - lhs[2] * rhs[1], lhs[2] * rhs[0] - lhs[0] * rhs[2],
-              lhs[0] * rhs[1] - lhs[1] * rhs[0]);
+  return vec3(lhs[1] * rhs[2] - lhs[2] * rhs[1], lhs[2] * rhs[0] - lhs[0] * rhs[2], lhs[0] * rhs[1] - lhs[1] * rhs[0]);
 }
 
 vec3 unit_vector(vec3 v) { return v / v.length(); }

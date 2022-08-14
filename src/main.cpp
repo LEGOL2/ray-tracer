@@ -52,8 +52,7 @@ int main() {
     }
   }
   auto end_time = std::chrono::high_resolution_clock::now();
-  std::cout << "Render time: "
-            << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count()
+  std::cout << "Render time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count()
             << "ms" << std::endl;
 
   write_image("image.png", WIDTH, HEIGHT, colors, samples_per_pixel);

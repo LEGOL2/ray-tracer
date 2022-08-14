@@ -10,8 +10,7 @@ void write_image(const char *path, int32_t width, int32_t height, uint8_t *data)
   stbi_write_png(path, width, height, 3, data, stride);
 }
 
-void write_image(const char *path, int32_t width, int32_t height, std::vector<color> &colors,
-                 int samples_per_pixel) {
+void write_image(const char *path, int32_t width, int32_t height, std::vector<color> &colors, int samples_per_pixel) {
   auto stride = 3 * width * sizeof(uint8_t);
   auto scale = 1.0 / samples_per_pixel;
 
