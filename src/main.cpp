@@ -21,6 +21,7 @@ int main() {
   constexpr uint32_t WIDTH = 800;
   constexpr uint32_t HEIGHT = WIDTH / ASPECT_RATIO;
   constexpr uint32_t samples_per_pixel = 100;
+  constexpr uint32_t progress_reporter = HEIGHT / 10;
 
   // World
   HittableList<double> world;
@@ -50,10 +51,15 @@ int main() {
       c.g(pixel_color.y());
       c.b(pixel_color.z());
     }
+
+    if (j % progress_reporter == 0) {
+      std::cout << "Progress: " << static_cast<double>(j) / HEIGHT << std::endl;
+    }
   }
   auto end_time = std::chrono::high_resolution_clock::now();
-  std::cout << "Render time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count()
-            << "ms" << std::endl;
+  std::cout << "Done. Render time: "
+            << std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time).count() << "ms"
+            << std::endl;
 
   write_image("image.png", WIDTH, HEIGHT, colors, samples_per_pixel);
 }

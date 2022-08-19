@@ -1,4 +1,4 @@
-project('ray-tracer', 'cpp', default_options: 'cpp_std=c++17')
+project('ray-tracer', 'cpp', version: '0.0.1', default_options: 'cpp_std=c++17', license: 'MIT')
 
 dependencies = []
 
