@@ -3,11 +3,11 @@
 This is my effort to create a CPU based ray tracer, based on book [_Ray Tracing in One Weekend_](https://raytracing.github.io/books/RayTracingInOneWeekend.html) by Peter Shirley.
 
 ## Build
-Requires [Meson](https://mesonbuild.com/) build system and [ninja](https://ninja-build.org/)
-
+Requires [Meson](https://mesonbuild.com/) build system, [ninja](https://ninja-build.org/) and C++17 compatible compiler (I'm using `gcc 11`).
 ```
 meson build
 ninja -C build
+./ray-tracer
 ```
 
 ## License

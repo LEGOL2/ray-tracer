@@ -5,16 +5,16 @@
 
 #include "src/hittable.hpp"
 
-class hittable_list : public hittable {
+class HittableList : public Hittable {
  public:
-  hittable_list() {}
-  hittable_list(std::shared_ptr<hittable> object);
+  HittableList() {}
+  HittableList(std::shared_ptr<Hittable> object);
 
   void clear();
-  void add(std::shared_ptr<hittable> object);
+  void add(std::shared_ptr<Hittable> object);
 
-  virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const;
+  virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const;
 
  private:
-  std::vector<std::shared_ptr<hittable>> objects;
+  std::vector<std::shared_ptr<Hittable>> objects;
 };

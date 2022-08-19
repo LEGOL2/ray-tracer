@@ -2,17 +2,17 @@
 
 #include "src/math/ray.hpp"
 
-struct hit_record {
-  point3 p;
-  vec3 normal;
+struct HitRecord {
+  Point3 p;
+  Vec3 normal;
   double t;
   bool front_face;
 
-  void set_face_normal(const ray& r, const vec3& outward_normal);
+  void set_face_normal(const Ray& r, const Vec3& outward_normal);
 };
 
-class hittable {
+class Hittable {
  public:
-  virtual ~hittable() = default;
-  virtual bool hit(const ray& r, double t_min, double t_max, hit_record& rec) const = 0;
+  virtual ~Hittable() = default;
+  virtual bool hit(const Ray& r, double t_min, double t_max, HitRecord& rec) const = 0;
 };

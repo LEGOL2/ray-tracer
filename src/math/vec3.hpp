@@ -3,10 +3,10 @@
 #include <cmath>
 #include <cstdint>
 
-class vec3 {
+class Vec3 {
  public:
-  vec3() : e{0, 0, 0} {}
-  vec3(double e0, double e1, double e2) : e{e0, e1, e2} {}
+  Vec3() : e{0, 0, 0} {}
+  Vec3(double e0, double e1, double e2) : e{e0, e1, e2} {}
 
   double x() const;
   double y() const;
@@ -19,15 +19,15 @@ class vec3 {
   uint8_t b() const;
   void b(double t);
 
-  vec3 operator-() const;
+  Vec3 operator-() const;
   double operator[](int i) const;
   double& operator[](int i);
 
-  vec3& operator+=(const vec3& v);
+  Vec3& operator+=(const Vec3& v);
 
-  vec3& operator*=(const double scalar);
+  Vec3& operator*=(const double scalar);
 
-  vec3& operator/=(const double t);
+  Vec3& operator/=(const double t);
 
   double length_squared() const;
 
@@ -37,21 +37,21 @@ class vec3 {
   double e[3];
 };
 
-vec3 operator+(vec3 lhs, const vec3& rhs);
+Vec3 operator+(Vec3 lhs, const Vec3& rhs);
 
-vec3 operator-(vec3 lhs, const vec3& rhs);
+Vec3 operator-(Vec3 lhs, const Vec3& rhs);
 
-vec3 operator*(vec3 lhs, const vec3& rhs);
-vec3 operator*(const double t, const vec3& v);
-vec3 operator*(const vec3& v, const double t);
+Vec3 operator*(Vec3 lhs, const Vec3& rhs);
+Vec3 operator*(const double t, const Vec3& v);
+Vec3 operator*(const Vec3& v, const double t);
 
-vec3 operator/(vec3 v, double t);
+Vec3 operator/(Vec3 v, double t);
 
-double dot(const vec3& lhs, const vec3& rhs);
+double dot(const Vec3& lhs, const Vec3& rhs);
 
-vec3 cross(const vec3& lhs, const vec3& rhs);
+Vec3 cross(const Vec3& lhs, const Vec3& rhs);
 
-vec3 unit_vector(vec3 v);
+Vec3 unit_vector(Vec3 v);
 
-using point3 = vec3;
-using color = vec3;
+using Point3 = Vec3;
+using Color = Vec3;

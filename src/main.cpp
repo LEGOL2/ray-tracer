@@ -12,8 +12,8 @@
 #include "src/math/sphere.hpp"
 #include "src/math/vec3.hpp"
 
-color ray_color(const ray& r, const hittable& world);
-double hit_sphere(const point3& center, double radius, const ray& r);
+Color ray_color(const Ray& r, const Hittable& world);
+double hit_sphere(const Point3& center, double radius, const Ray& r);
 
 int main() {
   // Image info
@@ -23,25 +23,25 @@ int main() {
   constexpr uint32_t samples_per_pixel = 100;
 
   // World
-  hittable_list world;
-  world.add(std::make_shared<sphere>(point3(0, 0, -1.0), 0.5));
-  world.add(std::make_shared<sphere>(point3(0, -100.5, -1.0), 100));
+  HittableList world;
+  world.add(std::make_shared<Sphere>(Point3(0, 0, -1.0), 0.5));
+  world.add(std::make_shared<Sphere>(Point3(0, -100.5, -1.0), 100));
 
   // Camera
-  camera camera;
+  Camera Camera;
 
   // Render
   auto start_time = std::chrono::high_resolution_clock::now();
-  std::vector<color> colors(WIDTH * HEIGHT);
+  std::vector<Color> colors(WIDTH * HEIGHT);
   for (uint32_t j = 0; j < HEIGHT; j++) {
     for (uint32_t i = 0; i < WIDTH; i++) {
       auto idx = j * WIDTH + i;
-      color pixel_color(0, 0, 0);
+      Color pixel_color(0, 0, 0);
 
       for (uint32_t s = 0; s < samples_per_pixel; s++) {
         auto u = static_cast<double>(i + random_double()) / (WIDTH - 1);
         auto v = static_cast<double>(j + random_double()) / (HEIGHT - 1);
-        ray r(camera.get_ray(u, v));
+        Ray r(Camera.get_ray(u, v));
         pixel_color += ray_color(r, world);
       }
 
@@ -58,19 +58,19 @@ int main() {
   write_image("image.png", WIDTH, HEIGHT, colors, samples_per_pixel);
 }
 
-color ray_color(const ray& r, const hittable& world) {
-  hit_record rec;
+Color ray_color(const Ray& r, const Hittable& world) {
+  HitRecord rec;
   if (world.hit(r, 0, infinity, rec)) {
-    return 0.5 * (rec.normal + color(1, 1, 1));
+    return 0.5 * (rec.normal + Color(1, 1, 1));
   }
 
-  vec3 unit_direction = unit_vector(r.direction());
+  Vec3 unit_direction = unit_vector(r.direction());
   auto t = 0.5 * (unit_direction.y() + 1.0);
-  return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
+  return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }
 
-double hit_sphere(const point3& center, double radius, const ray& r) {
-  vec3 oc = r.origin() - center;
+double hit_sphere(const Point3& center, double radius, const Ray& r) {
+  Vec3 oc = r.origin() - center;
   auto a = r.direction().length_squared();
   auto half_b = dot(oc, r.direction());
   auto c = oc.length_squared() - radius * radius;

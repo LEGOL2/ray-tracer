@@ -3,15 +3,15 @@
 #include "src/math/ray.hpp"
 #include "src/math/vec3.hpp"
 
-class camera {
+class Camera {
  public:
-  camera();
+  Camera();
 
-  ray get_ray(double u, double v) const;
+  Ray get_ray(double u, double v) const;
 
  private:
-  point3 origin;
-  point3 upper_left_corner;
-  vec3 horizontal;
-  vec3 vertical;
+  Point3 origin;
+  Point3 upper_left_corner;
+  Vec3 horizontal;
+  Vec3 vertical;
 };
