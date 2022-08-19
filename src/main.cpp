@@ -12,8 +12,8 @@
 #include "src/math/sphere.hpp"
 #include "src/math/vec3.hpp"
 
-Color ray_color(const Ray& r, const Hittable& world);
-double hit_sphere(const Point3& center, double radius, const Ray& r);
+Color ray_color(const Ray<double>& r, const Hittable<double>& world);
+double hit_sphere(const Point3<double>& center, double radius, const Ray<double>& r);
 
 int main() {
   // Image info
@@ -23,9 +23,9 @@ int main() {
   constexpr uint32_t samples_per_pixel = 100;
 
   // World
-  HittableList world;
-  world.add(std::make_shared<Sphere>(Point3(0, 0, -1.0), 0.5));
-  world.add(std::make_shared<Sphere>(Point3(0, -100.5, -1.0), 100));
+  HittableList<double> world;
+  world.add(std::make_shared<Sphere<double>>(Point3<double>(0.0, 0.0, -1.0), 0.5));
+  world.add(std::make_shared<Sphere<double>>(Point3<double>(0.0, -100.5, -1.0), 100));
 
   // Camera
   Camera Camera;
@@ -58,21 +58,21 @@ int main() {
   write_image("image.png", WIDTH, HEIGHT, colors, samples_per_pixel);
 }
 
-Color ray_color(const Ray& r, const Hittable& world) {
-  HitRecord rec;
+Color ray_color(const Ray<double>& r, const Hittable<double>& world) {
+  HitRecord<double> rec;
   if (world.hit(r, 0, infinity, rec)) {
     return 0.5 * (rec.normal + Color(1, 1, 1));
   }
 
-  Vec3 unit_direction = unit_vector(r.direction());
+  Vec3 unit_direction = unit_vector<double>(r.direction());
   auto t = 0.5 * (unit_direction.y() + 1.0);
   return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }
 
-double hit_sphere(const Point3& center, double radius, const Ray& r) {
-  Vec3 oc = r.origin() - center;
+double hit_sphere(const Point3<double>& center, double radius, const Ray<double>& r) {
+  Vec3<double> oc = r.origin() - center;
   auto a = r.direction().length_squared();
-  auto half_b = dot(oc, r.direction());
+  auto half_b = dot<double>(oc, r.direction());
   auto c = oc.length_squared() - radius * radius;
   auto delta = half_b * half_b - a * c;
 
