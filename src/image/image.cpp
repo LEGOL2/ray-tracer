@@ -14,7 +14,8 @@ void write_image(const char *path, int32_t width, int32_t height, std::vector<Co
   auto stride = 3 * width * sizeof(uint8_t);
   auto scale = 1.0 / samples_per_pixel;
 
-  std::vector<uint8_t> data(colors.size());
+  std::vector<uint8_t> data;
+  data.reserve(3 * colors.size());
   for (auto &c : colors) {
     c[0] *= scale;
     c[1] *= scale;

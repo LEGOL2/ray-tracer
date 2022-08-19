@@ -7,11 +7,11 @@ class Camera {
  public:
   Camera();
 
-  Ray get_ray(double u, double v) const;
+  Ray<double> get_ray(double u, double v) const;
 
  private:
-  Point3 origin;
-  Point3 upper_left_corner;
-  Vec3 horizontal;
-  Vec3 vertical;
+  Point3<double> origin;
+  Point3<double> upper_left_corner;
+  Vec3<double> horizontal;
+  Vec3<double> vertical;
 };
