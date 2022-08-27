@@ -12,7 +12,7 @@
 #include "src/math/sphere.hpp"
 #include "src/math/vec3.hpp"
 
-Color ray_color(const Ray<double>& r, const Hittable<double>& world);
+Color ray_color(const Ray<double>& r, const Hittable<double>& world, int depth);
 double hit_sphere(const Point3<double>& center, double radius, const Ray<double>& r);
 
 int main() {
@@ -22,6 +22,7 @@ int main() {
   constexpr uint32_t HEIGHT = WIDTH / ASPECT_RATIO;
   constexpr uint32_t samples_per_pixel = 100;
   constexpr uint32_t progress_reporter = HEIGHT / 10;
+  constexpr int max_depth = 50;
 
   // World
   HittableList<double> world;
@@ -29,7 +30,7 @@ int main() {
   world.add(std::make_shared<Sphere<double>>(Point3<double>(0.0, -100.5, -1.0), 100));
 
   // Camera
-  Camera Camera;
+  Camera camera;
 
   // Render
   auto start_time = std::chrono::high_resolution_clock::now();
@@ -40,10 +41,10 @@ int main() {
       Color pixel_color(0, 0, 0);
 
       for (uint32_t s = 0; s < samples_per_pixel; s++) {
-        auto u = static_cast<double>(i + random_double()) / (WIDTH - 1);
-        auto v = static_cast<double>(j + random_double()) / (HEIGHT - 1);
-        Ray r(Camera.get_ray(u, v));
-        pixel_color += ray_color(r, world);
+        auto u = static_cast<double>(i + random_T<double>()) / (WIDTH - 1);
+        auto v = static_cast<double>(j + random_T<double>()) / (HEIGHT - 1);
+        Ray r(camera.get_ray(u, v));
+        pixel_color += ray_color(r, world, max_depth);
       }
 
       auto& c = colors[idx];
@@ -64,10 +65,16 @@ int main() {
   write_image("image.png", WIDTH, HEIGHT, colors, samples_per_pixel);
 }
 
-Color ray_color(const Ray<double>& r, const Hittable<double>& world) {
+Color ray_color(const Ray<double>& r, const Hittable<double>& world, int depth) {
   HitRecord<double> rec;
-  if (world.hit(r, 0, infinity, rec)) {
-    return 0.5 * (rec.normal + Color(1, 1, 1));
+
+  if (depth <= 0) {
+    return Color(0.0, 0.0, 0.0);
+  }
+
+  if (world.hit(r, 0.001, infinity, rec)) {
+    Point3<double> target = rec.p + rec.normal + random_in_unit_sphere<double>();
+    return 0.5 * ray_color(Ray<double>(rec.p, target - rec.p), world, depth - 1);
   }
 
   Vec3 unit_direction = unit_vector<double>(r.direction());

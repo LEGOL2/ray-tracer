@@ -17,9 +17,10 @@ void write_image(const char *path, int32_t width, int32_t height, std::vector<Co
   std::vector<uint8_t> data;
   data.reserve(3 * colors.size());
   for (auto &c : colors) {
-    c[0] *= scale;
-    c[1] *= scale;
-    c[2] *= scale;
+    // Apply gamma correction and scale
+    c[0] = sqrt(c[0] * scale);
+    c[1] = sqrt(c[1] * scale);
+    c[2] = sqrt(c[2] * scale);
 
     data.push_back(c.r());
     data.push_back(c.g());
