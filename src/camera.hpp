@@ -5,7 +5,7 @@
 
 class Camera {
  public:
-  Camera();
+  Camera(Point3<double> lookfrom, Point3<double> lookat, Vec3<double> vup, double vfov, double aspect_ratio);
 
   Ray<double> get_ray(double u, double v) const;
 

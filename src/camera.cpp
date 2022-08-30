@@ -1,15 +1,20 @@
 #include "src/camera.hpp"
 
-Camera::Camera() {
-  constexpr double aspect_ratio = 16.0 / 9.0;
-  constexpr double viewport_height = 2.0;
-  constexpr double viewport_width = aspect_ratio * viewport_height;
-  constexpr double focal_length = 1.0;
+Camera::Camera(Point3<double> lookfrom, Point3<double> lookat, Vec3<double> vup, double vfov, double aspect_ratio) {
+  auto theta = degrees_to_radians(vfov);
+  auto h = tan(theta/2);
+  auto viewport_height = 2.0 * h;
+  auto viewport_width = aspect_ratio * viewport_height;
+  // constexpr double focal_length = 1.0;
 
-  origin = Point3<double>(0.0, 0.0, 0.0);
-  horizontal = Vec3(viewport_width, 0.0, 0.0);
-  vertical = Vec3(0.0, viewport_height, 0.0);
-  upper_left_corner = origin - horizontal / 2.0 + vertical / 2.0 - Vec3(0.0, 0.0, focal_length);
+  auto w = unit_vector<double>(lookfrom - lookat);
+  auto u = unit_vector<double>(cross<double>(vup, w));
+  auto v = cross<double>(w, u);
+
+  origin = lookfrom;
+  horizontal = viewport_width * u;
+  vertical = viewport_height * v;
+  upper_left_corner = origin - horizontal / 2.0 + vertical / 2.0 - w;
 }
 
 Ray<double> Camera::get_ray(double u, double v) const {
