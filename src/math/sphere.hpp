@@ -1,12 +1,13 @@
 #pragma once
 
 #include "src/hittable.hpp"
+#include "src/material.hpp"
 
 template <typename T>
 class Sphere : public Hittable<T> {
  public:
   Sphere() {}
-  Sphere(Point3<T> cen, T r) : center(cen), radius(r) {}
+  Sphere(Point3<T> center, T radius, std::shared_ptr<Material<T>> material) : center(center), radius(radius), material(material) {}
 
   virtual bool hit(const Ray<T>& r, T t_min, T t_max, HitRecord<T>& rec) const override {
     Vec3<T> oc = r.origin() - center;
@@ -32,6 +33,7 @@ class Sphere : public Hittable<T> {
     rec.p = r.at(rec.t);
     Vec3<T> outward_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, outward_normal);
+    rec.material = material;
 
     return true;
   }
@@ -39,4 +41,5 @@ class Sphere : public Hittable<T> {
  private:
   Point3<T> center;
   T radius;
+  std::shared_ptr<Material<T>> material;
 };

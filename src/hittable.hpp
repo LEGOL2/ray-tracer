@@ -3,9 +3,13 @@
 #include "src/math/ray.hpp"
 
 template <typename T>
+class Material;
+
+template <typename T>
 struct HitRecord {
   Point3<T> p;
   Vec3<T> normal;
+  std::shared_ptr<Material<T>> material;
   T t;
   bool front_face;
 

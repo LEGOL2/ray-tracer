@@ -51,6 +51,11 @@ class Vec3 {
 
   T length() const { return std::sqrt(length_squared()); }
 
+  bool near_zero() const {
+    constexpr auto s = 1e-8;
+    return (fabs(e[0]) < s) && (fabs(e[1]) < s) && (fabs(e[2]) < s);
+  }
+
  private:
   T e[3];
 };
@@ -109,6 +114,20 @@ Vec3<T> cross(const Vec3<T> &lhs, const Vec3<T> &rhs) {
 template <typename T>
 Vec3<T> unit_vector(const Vec3<T> &v) {
   return v / v.length();
+}
+
+template <typename T>
+Vec3<T> reflect(const Vec3<T>& vec, const Vec3<T>& normal) {
+  return vec - 2*dot<T>(vec, normal) * normal;
+}
+
+template <typename T>
+Vec3<T> refract(const Vec3<T>& uv, const Vec3<T>& n, double etai_over_etat) {
+  auto cos_theta = fmin(dot(-uv, n), 1.0);
+  Vec3<T> r_out_perp = etai_over_etat * (uv + cos_theta*n);
+  Vec3<T> r_out_parallel = -sqrt(fabs(1.0 - r_out_perp.length_squared())) * n;
+  
+  return r_out_perp + r_out_parallel;
 }
 
 template <typename T>
