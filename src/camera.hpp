@@ -5,7 +5,7 @@
 
 class Camera {
  public:
-  Camera(Point3<double> lookfrom, Point3<double> lookat, Vec3<double> vup, double vfov, double aspect_ratio);
+  Camera(Point3<double>& lookfrom, Point3<double>& lookat, Vec3<double>& vup, double vfov, double aspect_ratio, double aperture, double focus_dist);
 
   Ray<double> get_ray(double u, double v) const;
 
@@ -14,4 +14,6 @@ class Camera {
   Point3<double> upper_left_corner;
   Vec3<double> horizontal;
   Vec3<double> vertical;
+  Vec3<double> u, v, w;
+  double lens_radius;
 };

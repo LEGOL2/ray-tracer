@@ -24,3 +24,14 @@ Vec3<double> random_in_unit_sphere<double>() {
     return p;
   }
 }
+
+
+template <>
+Vec3<double> random_in_unit_disk() {
+  while(true) {
+    auto p = Vec3<double>(random_T<double>(-1.0, 1.0), random_T<double>(-1.0, 1.0), 0);
+    if (p.length_squared() >= 1.0) continue;
+
+    return p;
+  }
+}

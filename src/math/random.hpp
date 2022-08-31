@@ -26,3 +26,6 @@ template <typename T>
 Vec3<T> random_unit_vector() {
     return unit_vector(random_in_unit_sphere<T>());
 }
+
+template <typename T>
+Vec3<T> random_in_unit_disk();

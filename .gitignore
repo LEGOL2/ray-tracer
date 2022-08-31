@@ -1,4 +1,4 @@
 build/**
 release_build/**
-*.png
+./image.png
 .vscode/**
